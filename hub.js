@@ -1,26 +1,20 @@
 const capsEmitter=require('./eventPool');
 require('./driver');
 require('./vendor');
-capsEmitter.on('vendor',(payload)=>{
-    capsEmitter('test',{payload});
-})
-capsEmitter.on('vender package ready to be picked up ',(payload)=>{
-payload.time=new Date().getFullYear();
-console.log(payload);
+const sleep=(ms=1500)=>new Promise((r)=>setTimeout(r,ms));
+capsEmitter.on('orderRecived',async(payload)=>{
+    await sleep();
+     capsEmitter.emit('notifyDriver', {storeName:payload});
+    await sleep();
+     capsEmitter.emit('orderReadyToBePickedupFromVendor',{storeName:payload});
 });
-capsEmitter.on('driver package ready for pickup',(payload)=>{
-    payload.time=new Date().getFullYear();
-    console.log(payload);
-    });
-capsEmitter.on('driver package pickedup',(payload)=>{
-    payload.time=new Date().getFullYear();
-    console.log(payload);
-    });
-capsEmitter.on('driver package delivered',(payload)=>{
-    payload.time=new Date().getFullYear();
-    console.log(payload);
-    });
-capsEmitter.on('vender package has been delivered',(payload)=>{
-    payload.time=new Date().getFullYear();
-    console.log(payload);
-    });
+
+  capsEmitter.on('driverPickup',async(payload)=>{
+    await sleep()
+    capsEmitter.emit('alertVendorDriverPickedUp',{driverName:payload});
+});
+capsEmitter('orderDroppedOff',async(payload)=>{
+    capsEmitter.emit('orderDropped Off')
+})
+
+module.exports=capsEmitter;

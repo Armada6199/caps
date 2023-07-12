@@ -1,8 +1,15 @@
-const capsEmitter =require('../eventPool');
-capsEmitter.on('vendor',getPackage)
-async function getPackage(storeName){
-    setTimeout(()=>{
-        capsEmitter.emit('test',`tesssssssssting please work ${storeName}`)
-        },3000);
+const capsEmitter=require('../eventPool');
+const Driver=require('../driver');
+capsEmitter.on('orderReadyToBePickedupFromVendor',orderReadyPickup);
+function orderReadyPickup(payload){
+    payload.storename=payload.storeName;
+console.log(`${payload.storename} says order is ready for pickup`);
 }
-module.exports=getPackage;
+function alertVendorDriverPickedUp(payload){
+console.log('driver has picked up the order from your vendor')
+}
+setTimeout(()=>
+capsEmitter.emit('orderRecived','talabarmart')
+,100);
+    capsEmitter.on('alertVendorDriverPickedUp',alertVendorDriverPickedUp);
+
