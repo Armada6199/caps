@@ -1,5 +1,3 @@
-const Events = require('events');
-
-const capsEmitter = new Events();
-
-module.exports = capsEmitter;
+const Event=require('events');
+const ordersEvents=new Event();
+module.exports=ordersEvents;
